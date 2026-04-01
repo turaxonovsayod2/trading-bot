@@ -22,17 +22,12 @@ if not BOT_TOKEN:
     logger.error("BOT_TOKEN not set in environment variables")
     exit(1)
 
-# Импорты наших модулей (если они есть)
+# Импортируем handlers (папка bot/handlers.py)
 try:
-    from config import ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY, SUPPORTED_NETWORKS
-    from models import Base, User, Trade, ReferralEarning, PartnerBalance, AdminBalance, MasterTrader, CopySubscription, CopyTrade, SecurityEvent, BlockedUser, BlacklistedWallet
-    from database import engine
     import bot.handlers as handlers
-    # Создаём таблицы в БД
-    Base.metadata.create_all(bind=engine)
 except ImportError as e:
-    logger.warning(f"Some modules not imported yet: {e}")
-    # Создаём пустую заглушку для handlers, чтобы бот мог запуститься
+    logger.error(f"Failed to import handlers: {e}")
+    # Создаём простую заглушку, чтобы бот запустился
     class handlers:
         async def start(update, context): await update.message.reply_text("Бот запущен (упрощённый режим)")
         # Остальные методы – заглушки
@@ -41,7 +36,7 @@ except ImportError as e:
 # Создаём приложение Telegram
 telegram_app = Application.builder().token(BOT_TOKEN).build()
 
-# Регистрируем команды (если handlers определён)
+# Регистрируем команды
 telegram_app.add_handler(CommandHandler("start", handlers.start))
 telegram_app.add_handler(CommandHandler("language", handlers.language))
 telegram_app.add_handler(CommandHandler("connect_wallet", handlers.connect_wallet))
