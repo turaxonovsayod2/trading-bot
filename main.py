@@ -59,7 +59,7 @@ telegram_app.add_handler(CommandHandler("help", handlers.help_command))
 
 telegram_app.add_handler(CallbackQueryHandler(handlers.callback_handler))
 
-def run_bot():
+def run_web():
     """Запуск бота в режиме long polling (используется, если webhook не настроен)"""
     telegram_app.run_polling()
 
