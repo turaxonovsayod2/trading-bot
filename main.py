@@ -84,10 +84,4 @@ def run_web():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
-    # Запускаем оба сервиса в отдельных потоках
-    bot_thread = threading.Thread(target=run_bot)
-    web_thread = threading.Thread(target=run_web)
-    bot_thread.start()
-    web_thread.start()
-    bot_thread.join()
-    web_thread.join()
+    run_web()
