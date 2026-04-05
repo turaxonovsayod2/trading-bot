@@ -1,8 +1,9 @@
+
 import os
 import logging
 from dotenv import load_dotenv
 from telegram import Update
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler
+from telegram.ext import Application, CommandHandler
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -12,18 +13,21 @@ logging.basicConfig(level=logging.INFO)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN not set")
+    raise ValueError("BOT_TOKEN is not set!")
 
-# Импорт обработчиков (убедитесь, что папка bot и файл handlers.py существуют)
+# Импортируем твои обработчики команд из папки bot
 import bot.handlers as handlers
 
+# Создаём приложение Telegram
 telegram_app = Application.builder().token(BOT_TOKEN).build()
 
-# Регистрация команд (добавьте нужные)
+# Регистрируем команды
 telegram_app.add_handler(CommandHandler("start", handlers.start))
-telegram_app.add_handler(CommandHandler("help", handlers.help_command))
-# добавьте остальные команды по аналогии
+# Добавь сюда другие обработчики команд, например:
+# telegram_app.add_handler(CommandHandler("help", handlers.help_command))
+# ... и так далее
 
+# Создаём FastAPI приложение для Webhook
 app = FastAPI()
 
 @app.post("/webhook")
