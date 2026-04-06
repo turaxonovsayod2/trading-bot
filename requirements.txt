@@ -1,5 +1,7 @@
-
 python-telegram-bot==20.7
 Flask==2.3.3
-requests
 gunicorn
+requests
+sqlalchemy
+psycopg2-binary
+python-dotenv
