@@ -1,3 +1,4 @@
+
 python-telegram-bot==20.7
 Flask==2.3.3
 gunicorn
@@ -5,3 +6,6 @@ requests
 sqlalchemy
 psycopg2-binary
 python-dotenv
+web3
+solana
+aiohttp
